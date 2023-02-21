@@ -4,14 +4,10 @@ import com.rbnico.productmicorservice.entity.ListResponse;
 import com.rbnico.productmicorservice.entity.ProductEntity;
 import com.rbnico.productmicorservice.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -20,15 +16,16 @@ public class ProductService {
     @Autowired
     private ProductRepository productRepository;
 
+    @SuppressWarnings("unused")
     public ListResponse<ProductEntity> getAllProducts() {
-        return new ListResponse<ProductEntity>( productRepository.findAll() );
+        return new ListResponse<>(productRepository.findAll());
     }
 
     public ListResponse<ProductEntity> getAllProducts(Integer pageNo, Integer pageSize, String sortBy) {
 
         Pageable paging = PageRequest.of(pageNo, pageSize, Sort.by(sortBy));
 
-        return new ListResponse<ProductEntity>(
+        return new ListResponse<>(
                 productRepository.findAll(paging)
                 .get()
                 .collect(Collectors.toList()), paging);
@@ -38,6 +35,7 @@ public class ProductService {
     public Optional<ProductEntity> findProductById( Integer id ) {
         return productRepository.findById( id );
     }
+
 
     public ProductEntity saveProduct( ProductEntity product ) {
         return productRepository.save( product );
